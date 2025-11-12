@@ -1,36 +1,53 @@
-/**
- * @file XO_Demo.cpp
- * @brief Entry point for the FCAI X-O (Tic-Tac-Toe) game.
- *
- * This file initializes the X-O game by creating the user interface, board, and players.
- * It then launches the game loop via the GameManager class.
- * All dynamically allocated objects are properly deleted at the end.
- */
-
 #include <iostream> // Required for input/output operations (cout, cin)
 #include <string>   // Required for string
 #include <vector>   // Required for vector
 #include <memory>   // Required for unique_ptr
-
+#include <limits> // Required for clearing input buffer
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
+#include "Numerical_Tic_Tac_Toe.h"
 using namespace std;
 
-/**
- * @brief Main function to run the X-O game.
- *
- * This function orchestrates the game by:
- * - Initializing the random number generator
- * - Creating the X-O specific UI and board
- * - Setting up players using the UI
- * - Running the main game loop through the GameManager
- * - Performing cleanup of dynamically allocated memory
- *
- * @return int Returns 0 on successful execution.
- */
-int main() {
 
-    srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
+
+void clear_cin() {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+
+
+void menu() {
+    cout << "-------------------------------------------\n";
+    cout << "\n--- 🎮 Welcome to the FCAI Game Center 🎮 ---\n";
+    cout << "Individual Games:\n";
+    cout << "0: Play Classic X-O Game\n";
+    cout << "1: Play SUS\n";//Next update
+    cout << "2: Play Four-in-a-row\n";//Next update
+    cout << "3: 5 x 5 Tic Tac Toe\n";//Next update
+    cout << "4: Play Word Tic-tac-toe\n";//Next update
+    cout << "5: Play Misère Tic Tac Toe\n";//Next update
+    cout << "6: Play Diamond Tic-Tac-Toe\n";//Next update
+    cout << "7: Play 4 x 4 Tic-Tac-Toe\n";//Next update
+    cout << "8: Play Pyramid Tic-Tac-Toe\n";//Next update
+    cout << "-------------------------------------------\n";
+    cout << "Group Games:\n";
+    cout << "9: Play Numerical Tic-Tac-Toe\n";
+    cout << "10: Play Obstacles Tic-Tac-Toe\n";//Next update
+    cout << "11: Play Infinity Tic-Tac-Toe\n";//Next update
+    cout << "12: Play Ultimate Tic Tac Toe\n";//Next update
+    cout << "-------------------------------------------\n";
+    cout <<"Bones Games:\n";
+    cout <<"13: Play Memory Tic-Tac-Toe\n";//Next update
+    cout << "14: Exit\n";
+    cout << "-------------------------------------------\n";
+    cout <<"please enter your choice from the menu(0>>>>14):";
+}
+
+void xo_game() {
+    cout << "\n===============================\n";
+    cout << "  Starting Classic X-O Game  \n";
+    cout << "===============================\n";
 
     // Create an instance of the specific UI for X-O using a pointer 
     UI<char>* game_ui = new XO_UI();
@@ -51,7 +68,7 @@ int main() {
     // --- Cleanup ---
     // Delete the dynamically allocated board object.
     delete xo_board;
-
+    delete game_ui;
     // Delete the individual player objects.
     for (int i = 0; i < 2; ++i) {
         delete players[i];
@@ -59,7 +76,185 @@ int main() {
     // Delete the dynamically allocated array of player pointers itself.
     delete[] players;
 
-    return 0; // Exit successfully
+cout << "\n--- X-O Game Over ---\n";
 }
 
+void run_numerical_game() {
+    cout << "\n=====================================\n";
+    cout << "  Starting Numerical Tic-Tac-Toe  \n";
+    cout << "=====================================\n";
+
+    // Create an instance of the specific UI for X-O using a pointer
+    UI<int>* game_ui = new Numerical_UI();
+
+    // Create the game board. For X-O, this is an X_O_Board.
+    Board<int>* num_board = new Numerical_Board();
+
+
+
+    // Use the UI to set up the players for the game.
+    // The UI returns a dynamically allocated array of Player pointers.
+    Player<int>** players = game_ui->setup_players();
+
+
+
+    // Create the game manager with the board and the array of players.
+    GameManager<int> num_game(num_board, players, game_ui);
+
+    // Run the game loop.
+    num_game.run();
+
+    // --- Cleanup ---
+    // Delete the dynamically allocated board object.
+    delete num_board;
+    delete game_ui;
+    // Delete the individual player objects.
+    for (int i = 0; i < 2; ++i) {
+        delete players[i];
+    }
+    // Delete the dynamically allocated array of player pointers itself.
+    delete[] players;
+
+    cout << "\n--- Numerical Game Over ---\n";
+
+}
+
+
 // =====================================================================
+int main() {
+    srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
+
+bool run_games=true;
+while (run_games) {
+    int choice=-1;
+    menu();
+    cin >> choice;
+    if (cin.fail()) {
+        cout << "Invalid input. Please enter a number.\n";
+        clear_cin();
+        continue;
+    }
+    switch (choice) {
+        /*******Individual Games***********/
+
+        case 0: {
+            xo_game();
+            break;
+        }
+            /******************/
+        case 1: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 2: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 3: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 4: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 5: {
+
+
+
+            break;
+        }
+            /******************/
+        case 6: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 7: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 8: {
+
+
+
+            break;
+        }
+            /*******Group Games***********/
+
+        case 9: {
+            run_numerical_game();
+            break;
+        }
+            /******************/
+
+        case 10: {
+
+
+
+            break;
+        }
+            /******************/
+
+        case 11: {
+
+
+
+            break;
+        }
+            /******************/
+        case 12: {
+
+
+
+            break;
+        }
+            /******************/
+        case 13: {
+
+
+
+            break;
+        }
+            /******************/
+        case 14: {
+            run_games = false;
+            cout << "Thank you for playing. Exiting...\n";
+            break;
+        }
+        default: {
+            cout << "Invalid choice. Please select from the menu options.\n";
+            break;
+        }
+    }
+}
+
+
+
+
+
+return 0;
+}

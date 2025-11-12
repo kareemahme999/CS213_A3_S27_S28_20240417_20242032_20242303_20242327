@@ -126,7 +126,7 @@ class Player {
 protected:
     string name;         ///< Player name
     PlayerType type;     ///< Player type (e.g., HUMAN or COMPUTER)
-    T symbol;            ///< Player’s symbol on board
+    T symbol;            ///< Playerï¿½s symbol on board
     Board<T>* boardPtr;  ///< Pointer to the game board
 
 public:
@@ -183,6 +183,7 @@ protected:
         for (size_t i = 0; i < options.size(); ++i)
             cout << i + 1 << ". " << options[i] << "\n";
         int choice;
+        cout<<"Plaese Choose type of player: ";
         cin >> choice;
         return (choice == 2) ? PlayerType::COMPUTER : PlayerType::HUMAN;
     }

@@ -38,7 +38,7 @@ public:
      * @param move Pointer to a Move<char> object containing move coordinates and symbol.
      * @return true if the move is valid and successfully applied, false otherwise.
      */
-    bool update_board(Move<char>* move);
+    bool update_board(Move<char>* move) ;
 
     /**
      * @brief Checks if the given player has won the game.
@@ -75,7 +75,7 @@ public:
  * @brief User Interface class for the X-O (Tic-Tac-Toe) game.
  *
  * Inherits from the generic `UI<char>` base class and provides
- * X-O–specific functionality for player setup and move input.
+ * X-Oï¿½specific functionality for player setup and move input.
  *
  * @see UI
  */

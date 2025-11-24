@@ -18,7 +18,6 @@ ObstaclesBoard::ObstaclesBoard() : Board<char>(6, 6) {
     n_moves = 0;
 }
 
-// الأفضل :
 ObstaclesBoard::~ObstaclesBoard() = default;
 
 bool ObstaclesBoard::in_bounds(int r, int c) const {
@@ -97,8 +96,6 @@ bool ObstaclesBoard::is_win(Player<char>* p) {
 }
 
 bool ObstaclesBoard::is_lose(Player<char>* p) {
-    // اللعبة لا تدعم حالة "خسارة مباشرة"
-    // لازم ترجع قيمة، وإلا ال linker هيفشل
     return false;
 }
 
@@ -120,7 +117,6 @@ Obstacles_UI::~Obstacles_UI() = default;
 
 Move<char>* Obstacles_UI::get_move(Player<char>* p) {
 
-    // لو اللاعب Human
     if (p->get_type() == PlayerType::HUMAN) {
         int r, c;
         cout << p->get_name() << " (" << p->get_symbol()
@@ -128,8 +124,6 @@ Move<char>* Obstacles_UI::get_move(Player<char>* p) {
         cin >> r >> c;
         return new Move<char>(r, c, p->get_symbol());
     }
-
-    // لو اللاعب Computer → يلعب تلقائيًا
     Board<char>* b = p->get_board_ptr();
     auto mat = b->get_board_matrix();
 
@@ -150,3 +144,4 @@ Move<char>* Obstacles_UI::get_move(Player<char>* p) {
 Player<char>* Obstacles_UI::create_player(string& n, char s, PlayerType t) {
     return new Player<char>(n, s, t);
 }
+

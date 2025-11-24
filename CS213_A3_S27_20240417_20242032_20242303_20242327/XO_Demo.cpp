@@ -7,6 +7,7 @@
 #include "XO_Classes.h"
 #include "SUS.h"
 #include "Numerical_Tic_Tac_Toe.h"
+#include "FiveXO.h"
 using namespace std;
 
 /*──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌

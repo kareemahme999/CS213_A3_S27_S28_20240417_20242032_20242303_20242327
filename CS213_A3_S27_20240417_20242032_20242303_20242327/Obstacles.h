@@ -11,7 +11,7 @@ public:
 
     bool update_board(Move<char>* move) override;
     bool is_win(Player<char>* p) override;
-    bool is_lose(Player<char>* p) override;   // لازم يكون موجود
+    bool is_lose(Player<char>* p) override;   
     bool is_draw(Player<char>* p) override;
     bool game_is_over(Player<char>* p) override;
 
@@ -29,7 +29,7 @@ public:
     Player<char>* create_player(std::string& name, char symbol, PlayerType type) override;
 };
 
-// declaration only (implementation in .cpp)
 void run_obstacles_game();
 
 #endif
+

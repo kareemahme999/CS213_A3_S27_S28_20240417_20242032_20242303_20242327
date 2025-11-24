@@ -8,6 +8,7 @@
 #include "SUS.h"
 #include "Numerical_Tic_Tac_Toe.h"
 #include "FiveXO.h"
+#include "FourXO.h"
 using namespace std;
 
 /*──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
@@ -225,6 +226,34 @@ void run_5x5_tic_tac_toe() {
     cout << "\n--- Game Over ---\n";
 }
 
+
+void run_4x4_game() {
+    cout << "\n=====================================\n";
+    cout << "    Starting 4x4 Moving Tic-Tac-Toe  \n";
+    cout << "=====================================\n";
+
+    // Create game components
+    Board_4x4* board = new Board_4x4();
+    UI_4x4* ui = new UI_4x4();
+
+    // Setup players
+    Player<char>** players = ui->setup_players();
+
+    // Create and run game manager
+    GameManager<char> game_manager(board, players, ui);
+    game_manager.run();
+
+    // Cleanup memory
+    delete board;
+    delete ui;
+    for (int i = 0; i < 2; ++i) {
+        delete players[i];
+    }
+    delete[] players;
+
+    cout << "\n--- 4x4 Game Over ---\n";
+}
+
 // ====================================================================
 int main() {
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
@@ -291,9 +320,7 @@ while (run_games) {
             /******************/
 
         case 7: {
-
-
-
+            run_4x4_game();
             break;
         }
             /******************/

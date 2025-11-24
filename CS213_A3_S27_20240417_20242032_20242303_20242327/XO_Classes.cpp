@@ -74,7 +74,7 @@ bool X_O_Board::game_is_over(Player<char>* player) {
     return is_win(player) || is_draw(player);
 }
 
-//--------------------------------------- XO_UI Implementation
+//------------------------------------- XO_UI Implementation
 
 XO_UI::XO_UI() : UI<char>("", 3) {}
 

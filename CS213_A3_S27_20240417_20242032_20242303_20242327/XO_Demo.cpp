@@ -5,6 +5,7 @@
 #include <limits> // Required for clearing input buffer
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
+#include "SUS.h"
 #include "Numerical_Tic_Tac_Toe.h"
 using namespace std;
 
@@ -68,7 +69,7 @@ void menu() {
     cout << "\n--- 🎮 Welcome to the FCAI Game Center 🎮 ---\n";
     cout << "Individual Games:\n";
     cout << "0: Play Classic X-O Game\n";
-    cout << "1: Play SUS\n";//Next update
+    cout << "1: Play SUS\n";
     cout << "2: Play Four-in-a-row\n";//Next update
     cout << "3: 5 x 5 Tic Tac Toe\n";//Next update
     cout << "4: Play Word Tic-tac-toe\n";//Next update
@@ -164,9 +165,52 @@ void run_numerical_game() {
     cout << "\n--- Numerical Game Over ---\n";
 
 }
+void run_sus_game() {
+    cout << "\n=====================================\n";
+    cout << "       Starting SUS Game  \n";
+    cout << "  Goal: Create S-U-S sequences!  \n";
+    cout << "=====================================\n";
 
+    UI<char>* game_ui = new SUS_UI();
+    SUS_Board* sus_board = new SUS_Board();
+    Player<char>** players = game_ui->setup_players();
 
-// =====================================================================
+    // 2. Create and Run Game Manager
+    GameManager<char> sus_game(sus_board, players, game_ui);
+    sus_game.run();
+
+    // 3. Display Final Results
+    cout << "\n--- Final Board State ---\n";
+    sus_board->display_board();
+
+    // Display final scores
+    cout << "\n--- Final SUS Count ---\n";
+    cout << players[0]->get_name() << ">>>Player1 : "
+         << sus_board->get_player1_score() << " total SUS sequences\n";
+    cout << players[1]->get_name() << ">>>Player2 : "
+         << sus_board->get_player2_score() << " total SUS sequences\n";
+
+    if (sus_board->get_player1_score() > sus_board->get_player2_score()) {
+        cout << "\n WINNER: " << players[0]->get_name() << " \n";
+    } else if (sus_board->get_player2_score() > sus_board->get_player1_score()) {
+        cout << "\n WINNER: " << players[1]->get_name() << " \n";
+    } else {
+        cout << "\nIt's a TIE in score!\n";
+        cout << " DRAW! No winner declared. \n";
+    }
+
+    // 4. Cleanup
+    for (int i = 0; i < 2; ++i) {
+        delete players[i];
+    }
+    delete[] players;
+    delete sus_board;
+    delete game_ui;
+
+    cout << "\n--- SUS Game Over ---\n";
+}
+
+// ====================================================================
 int main() {
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
 
@@ -189,9 +233,7 @@ while (run_games) {
         }
             /******************/
         case 1: {
-
-
-
+            run_sus_game();
             break;
         }
             /******************/

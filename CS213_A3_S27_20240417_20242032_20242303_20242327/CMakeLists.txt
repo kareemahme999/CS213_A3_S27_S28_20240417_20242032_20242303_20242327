@@ -12,7 +12,8 @@ add_executable(Assignment_3
         ${SRC_DIR}/XO_Demo.cpp
         ${SRC_DIR}/Numerical_Tic_Tac_Toe.cpp
         ${SRC_DIR}/SUS.cpp
-        FiveXO.cpp
-        FourXO.h
-        FourXO.cpp
+        ${SRC_DIR}/FiveXO.cpp
+        ${SRC_DIR}/FourXO.cpp
+        ${SRC_DIR}/Obstacles.cpp
+        ${SRC_DIR}/Misere_Tic_Tac_Teo.cpp
 )

@@ -213,7 +213,7 @@ public:
     virtual Player<T>** setup_players();
 
     /**
-     * @brief Create a player object based on input name, symbol, and type.
+     * @brief Create a player object based on input name, symbol and type.
      */
     virtual Player<T>* create_player(string& name, T symbol, PlayerType type) = 0;
 

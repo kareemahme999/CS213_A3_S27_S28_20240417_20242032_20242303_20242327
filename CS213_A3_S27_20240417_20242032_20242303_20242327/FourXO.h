@@ -7,12 +7,10 @@
 
 using namespace std;
 
-// Board class for 4x4 Moving Tic-Tac-Toe
-// Players move pieces instead of placing marks
 class Board_4x4 : public Board<char> {
 private:
-    vector<pair<int, int>> player1_pieces; // X player pieces positions
-    vector<pair<int, int>> player2_pieces; // O player pieces positions
+    vector<pair<int, int>> player1_pieces; // X player pieces
+    vector<pair<int, int>> player2_pieces; // O player pieces
     char current_player_symbol;
 
 public:
@@ -24,13 +22,16 @@ public:
     bool game_is_over(Player<char>* player) override;
     bool is_lose(Player<char>* player) override;
 
+    // Helper functions
+    vector<pair<int, int>> get_player_pieces(char symbol);
+    bool isValidPosition(int x, int y);
+    bool move_piece(int from_x, int from_y, int to_x, int to_y, char symbol);
+    bool has_valid_moves(char symbol);
+
 private:
-    bool isValidMove(int from_x, int from_y, int to_x, int to_y, char symbol);
-    void initializePieces();
     bool checkThreeInRow(char symbol);
 };
 
-// UI class for 4x4 game - handles move input
 class UI_4x4 : public UI<char> {
 public:
     UI_4x4() : UI("=== 4x4 Moving Tic-Tac-Toe ===", 3) {}
@@ -38,7 +39,14 @@ public:
     Player<char>* create_player(string& name, char symbol, PlayerType type) override;
 };
 
-// Main function to run the 4x4 game
-inline void run_4x4_game();
+class RandomPlayer_4x4 : public Player<char> {
+public:
+    RandomPlayer_4x4(string name, char symbol)
+        : Player(name, symbol, PlayerType::COMPUTER) {}
+
+    Move<char>* get_move();
+};
+
+void run_4x4_game();
 
 #endif

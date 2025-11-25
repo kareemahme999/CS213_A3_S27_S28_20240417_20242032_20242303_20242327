@@ -256,13 +256,20 @@ void run_5x5_tic_tac_toe() {
     cout << "\n--- Game Over ---\n";
 }
 
-
+//fourXO
 void run_4x4_game() {
     cout << "\n=====================================\n";
-    cout << "    Starting 4x4 Moving Tic-Tac-Toe  \n";
+    cout << "    Starting 4x4 MOVING Tic-Tac-Toe  \n";
     cout << "=====================================\n";
+    cout << "Rules:\n";
+    cout << "- Each player has 4 pieces\n";
+    cout << "- Move your pieces to adjacent empty cells\n";
+    cout << "- Win by getting 3 pieces in a row\n";
+    cout << "- Pieces can move up, down, left, right (not diagonal)\n\n";
 
-    // Create game components
+    // Initialize random seed
+    srand(static_cast<unsigned int>(time(0)));
+
     Board_4x4* board = new Board_4x4();
     UI_4x4* ui = new UI_4x4();
 
@@ -273,7 +280,7 @@ void run_4x4_game() {
     GameManager<char> game_manager(board, players, ui);
     game_manager.run();
 
-    // Cleanup memory
+    // Cleanup
     delete board;
     delete ui;
     for (int i = 0; i < 2; ++i) {
@@ -281,7 +288,7 @@ void run_4x4_game() {
     }
     delete[] players;
 
-    cout << "\n--- 4x4 Game Over ---\n";
+    cout << "\n--- 4x4 Moving Game Over ---\n";
 }
 
 void run_obstacles_game() {

@@ -83,7 +83,7 @@ void menu() {
     cout << "-------------------------------------------\n";
     cout << "Group Games:\n";
     cout << "9: Play Numerical Tic-Tac-Toe\n";
-    cout << "10: Play Obstacles Tic-Tac-Toe\n";//Next update
+    cout << "10: Play Obstacles Tic-Tac-Toe\n";
     cout << "11: Play Infinity Tic-Tac-Toe\n";//Next update
     cout << "12: Play Ultimate Tic Tac Toe\n";//Next update
     cout << "-------------------------------------------\n";

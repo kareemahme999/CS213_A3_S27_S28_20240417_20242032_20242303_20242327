@@ -74,7 +74,7 @@ void menu() {
     cout << "Individual Games:\n";
     cout << "0: Play Classic X-O Game\n";
     cout << "1: Play SUS\n";
-    cout << "2: Play Four-in-a-row\n";//Next update
+    cout << "2: Play Four-in-a-row\n";
     cout << "3: 5 x 5 Tic Tac Toe\n";//Next update
     cout << "4: Play Word Tic-tac-toe\n";//Next update
     cout << "5: Play Misère Tic Tac Toe\n";//Next update

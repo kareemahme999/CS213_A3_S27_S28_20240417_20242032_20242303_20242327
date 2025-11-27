@@ -14,6 +14,8 @@
 #include "Obstacles.h"
 #include "Pyramid_Board.h"
 #include "Infinity_Board.h"
+#include "Word.h"
+
 
 using namespace std;
 

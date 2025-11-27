@@ -389,6 +389,24 @@ void play_infinity_game() {
     cout << "Infinity game finished.\n\n";
 }
 
+void run_word_game() {
+    cout << "\n===== Starting Word Tic-Tac-Toe =====\n";
+
+    UI<char>* ui = new WordUI();
+    Board<char>* board = new WordBoard();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+    game.run();
+
+    for (int i = 0; i < 2; i++) delete players[i];
+    delete[] players;
+    delete board;
+    delete ui;
+
+    cout << "\n--- Word Game Over ---\n";
+}
+
 // ====================================================================
 int main() {
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
@@ -430,9 +448,7 @@ while (run_games) {
             /******************/
 
         case 4: {
-
-
-
+            run_word_game();
             break;
         }
             /******************/

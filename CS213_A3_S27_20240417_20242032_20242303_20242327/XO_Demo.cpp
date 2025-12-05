@@ -16,6 +16,7 @@
 #include "Infinity_Board.h"
 #include "Word.h"
 #include "Ultimate_TicTacToe.h"
+#include "Memory_TicTacToe.h"
 
 
 using namespace std;
@@ -502,6 +503,43 @@ void play_ultimate_tictactoe() {
     }
 }
 
+void play_memory_tictactoe() {
+    MemoryUI* ui = new MemoryUI();
+    Memory_TicTacToe* board = new Memory_TicTacToe();
+
+    Player<char>** players = ui->setup_players();
+    players[0]->set_board_ptr(board);
+    players[1]->set_board_ptr(board);
+
+    int turn = 0;
+
+    while(true){
+        Player<char>* current = players[turn];
+
+        board->display_board();
+
+        Move<char>* move = ui->get_move(current);
+        while(!board->update_board(move)){
+            cout << "Invalid move, try again.\n";
+            delete move;
+            move = ui->get_move(current);
+        }
+
+        // Switch player
+        turn = 1 - turn;
+
+        if(board->is_win(current)){
+            cout << "\n" << current->get_name() << " wins the Memory Tic Tac Toe!\n";
+            break;
+        }
+        if(board->is_draw(current)){
+            cout << "\nGame Draw!\n";
+            break;
+        }
+    }
+
+    delete players[0]; delete players[1]; delete[] players; delete ui; delete board;
+}
 
 
 
@@ -601,9 +639,7 @@ while (run_games) {
         }
             /******************/
         case 13: {
-
-
-
+            play_memory_tictactoe();
             break;
         }
             /******************/

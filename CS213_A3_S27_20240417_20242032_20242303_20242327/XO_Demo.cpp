@@ -15,6 +15,7 @@
 #include "Pyramid_Board.h"
 #include "Infinity_Board.h"
 #include "Word.h"
+#include "Ultimate_TicTacToe.h"
 
 
 using namespace std;
@@ -409,6 +410,103 @@ void run_word_game() {
     cout << "\n--- Word Game Over ---\n";
 }
 
+void play_ultimate_tictactoe() {
+    UltimateUI* ui = new UltimateUI();
+    Ultimate_TicTacToe* board = new Ultimate_TicTacToe();
+
+    // Setup players
+    Player<char>** players = ui->setup_players();
+    players[0]->set_board_ptr(board);
+    players[1]->set_board_ptr(board);
+
+    int turn = 0; // Player 0 starts
+
+    while(true){
+        Player<char>* current = players[turn];
+
+        // 0) Display Big Board first
+        cout << "\n--- Big Board ---\n";
+        board->display_big_board();
+
+        // 1) Choose a free cell in big_board
+        pair<int,int> big_pos = ui->choose_bigboard_cell(current, board);
+        int br = big_pos.first;
+        int bc = big_pos.second;
+
+        cout << current->get_name() << " selected Big Board cell: (" << br << "," << bc << ")\n";
+
+        // 2) Reset and play the sub-board
+        board->reset_subboard();
+
+        // Display sub-board directly
+        board->display_subboard();
+
+        while(true){
+            // Get move
+            Move<char>* move = ui->get_move(current);
+            while(!board->update_board(move)) {
+                cout << "Invalid move, try again.\n";
+                delete move;
+                move = ui->get_move(current);
+            }
+
+            board->display_subboard();
+
+            // Check win/draw in sub-board
+            if(board->is_win(current)){
+                cout << current->get_name() << " wins this sub-board!\n";
+                board->set_bigboard_cell(br, bc, current->get_symbol());
+                break;
+            }
+            if(board->is_draw(current)){
+                cout << "Sub-board draw!\n";
+                board->set_bigboard_cell(br, bc, '-');
+                break;
+            }
+
+            // Switch player inside sub-board
+            turn = 1 - turn;
+            current = players[turn];
+        }
+
+        // 3) Display big_board after sub-board
+        cout << "\n--- Big Board After Sub-board ---\n";
+        board->display_big_board();
+
+        // 4) Check win in big_board
+        for(int i=0;i<2;i++){
+            if(board->get_bigboard_cell(br,bc)==players[i]->get_symbol()){
+                char sym = players[i]->get_symbol();
+                bool win=false;
+                // Horizontal
+                for(int r=0;r<3;r++)
+                    if(board->get_bigboard_cell(r,0)==sym && board->get_bigboard_cell(r,1)==sym && board->get_bigboard_cell(r,2)==sym) win=true;
+                // Vertical
+                for(int c=0;c<3;c++)
+                    if(board->get_bigboard_cell(0,c)==sym && board->get_bigboard_cell(1,c)==sym && board->get_bigboard_cell(2,c)==sym) win=true;
+                // Diagonals
+                if(board->get_bigboard_cell(0,0)==sym && board->get_bigboard_cell(1,1)==sym && board->get_bigboard_cell(2,2)==sym) win=true;
+                if(board->get_bigboard_cell(0,2)==sym && board->get_bigboard_cell(1,1)==sym && board->get_bigboard_cell(2,0)==sym) win=true;
+
+                if(win){
+                    cout << "\nCongratulations! " << players[i]->get_name() << " wins the Ultimate Tic Tac Toe!\n";
+                    // Cleanup
+                    delete players[0]; delete players[1]; delete[] players; delete ui; delete board;
+                    return;
+                }
+            }
+        }
+
+        // 5) Switch player for next sub-board
+        turn = 1 - turn;
+    }
+}
+
+
+
+
+
+
 // ====================================================================
 int main() {
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
@@ -498,9 +596,7 @@ while (run_games) {
         }
             /******************/
         case 12: {
-
-
-
+            play_ultimate_tictactoe();
             break;
         }
             /******************/

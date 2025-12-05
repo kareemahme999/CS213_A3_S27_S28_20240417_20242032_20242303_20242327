@@ -20,6 +20,7 @@ add_executable(Assignment_3
         ${SRC_DIR}/Pyramid_Board.cpp
         ${SRC_DIR}/Infinity_Board.cpp
         ${SRC_DIR}/word.cpp
+        ${SRC_DIR}/Ultimate_TicTacToe.cpp
 
 
 )

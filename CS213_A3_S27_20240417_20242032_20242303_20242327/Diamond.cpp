@@ -1,5 +1,5 @@
 
-#include "DiamondBoard.h"
+#include "Diamond.h"
 #include <iostream>
 #include <map>
 using namespace std;

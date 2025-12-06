@@ -629,9 +629,7 @@ while (run_games) {
         }
             /******************/
         case 6: {
-
-
-
+            Diamond_game();
             break;
         }
             /******************/

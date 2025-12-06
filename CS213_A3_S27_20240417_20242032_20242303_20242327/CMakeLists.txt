@@ -22,7 +22,7 @@ add_executable(Assignment_3
         ${SRC_DIR}/word.cpp
         ${SRC_DIR}/Ultimate_TicTacToe.cpp
         ${SRC_DIR}/Memory_TicTacToe.cpp
-
+        ${SRC_DIR}/Diamond.cpp
 
 
 )

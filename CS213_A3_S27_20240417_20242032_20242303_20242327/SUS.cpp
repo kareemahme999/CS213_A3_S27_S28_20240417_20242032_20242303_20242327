@@ -1,16 +1,10 @@
 #include "SUS.h"
-/*──────▄▌▐▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▌
- * ───▄▄██▌█ beep beep--------------
- * ▄▄▄▌▐██▌█ -KAREEM_AHMED------------
- * ███████▌█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▌
- * ▀(@)▀▀▀▀(@)(@)▀▀▀▀▀▀▀▀▀▀▀(@)▀-----------------------
- *
-*/
 #include <iostream>
 #include <cstdlib>
 #include <cctype>
 #include <iomanip>
 #include <limits>
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -24,6 +18,15 @@ SUS_Board::SUS_Board() : Board(3, 3) {
             board[i][j] = blank_symbol;
 }
 
+SUS_Board::SUS_Board(const SUS_Board& other)
+    : Board<char>(other.rows, other.columns) {
+    this->board = other.board;
+    this->n_moves = other.n_moves;
+    this->player1_score = other.player1_score;
+    this->player2_score = other.player2_score;
+    this->blank_symbol = other.blank_symbol;
+}
+
 void SUS_Board::display_board() {
     cout << "\n    0   1   2\n";
     cout << "  -------------\n";
@@ -34,8 +37,8 @@ void SUS_Board::display_board() {
         }
         cout << "\n  -------------\n";
     }
-    // عرض النقاط باستخدام Player 1 و Player 2
-    cout << "Current Score: Player 1(S) = " << player1_score << ", Player 2(U) = " << player2_score << "\n";
+    cout << "Current Score: Player 1(S) = " << player1_score
+         << ", Player 2(U) = " << player2_score << "\n";
 }
 
 bool SUS_Board::update_board(Move<char>* move) {
@@ -46,23 +49,16 @@ bool SUS_Board::update_board(Move<char>* move) {
     if (!(x < 0 || x >= rows || y < 0 || y >= columns) &&
         (board[x][y] == blank_symbol)) {
 
-        // Store previous SUS count BEFORE placing the piece
         int prev_sus_count = count_sus_sequences();
-
-        // Place the piece
         board[x][y] = letter;
         n_moves++;
 
-        // Count NEW SUS sequences created by THIS move
         int new_sus_count = count_sus_sequences();
         int sequences_created = new_sus_count - prev_sus_count;
 
-        // Award points to the CURRENT player based on whose turn it is
         if (n_moves % 2 == 1) {
-            // Player 1's turn
             player1_score += sequences_created;
         } else {
-            // Player 2's turn
             player2_score += sequences_created;
         }
 
@@ -79,23 +75,19 @@ bool SUS_Board::is_sus_sequence(char a, char b, char c) {
 int SUS_Board::count_sus_sequences() {
     int count = 0;
 
-    // Check all rows
     for (int i = 0; i < rows; ++i) {
         if (is_sus_sequence(board[i][0], board[i][1], board[i][2]))
             count++;
     }
 
-    // Check all columns
     for (int j = 0; j < columns; ++j) {
         if (is_sus_sequence(board[0][j], board[1][j], board[2][j]))
             count++;
     }
 
-    // Check positive diagonal (top-left to bottom-right)
     if (is_sus_sequence(board[0][0], board[1][1], board[2][2]))
         count++;
 
-    // Check negative diagonal (top-right to bottom-left)
     if (is_sus_sequence(board[0][2], board[1][1], board[2][0]))
         count++;
 
@@ -103,12 +95,10 @@ int SUS_Board::count_sus_sequences() {
 }
 
 void SUS_Board::update_scores() {
-    // Scores are already updated during update_board()
 }
 
 bool SUS_Board::is_win(Player<char>* player) {
     if (n_moves == 9) {
-        // Game is over, check who has more points
         if (player->get_symbol() == 'S') {
             return player1_score > player2_score;
         }
@@ -121,7 +111,6 @@ bool SUS_Board::is_win(Player<char>* player) {
 
 bool SUS_Board::is_draw(Player<char>* player) {
     if (n_moves == 9) {
-        // Draw ONLY if scores are exactly equal
         return (player1_score == player2_score);
     }
     return false;
@@ -138,9 +127,27 @@ bool SUS_Board::game_is_over(Player<char>* player) {
 SUS_UI::SUS_UI() : UI<char>("", 3) {
 }
 
+PlayerType SUS_UI::get_player_type_choice(string player_label,
+                                          const vector<string>& options) {
+    cout << "Choose " << player_label << " type:\n";
+    for (size_t i = 0; i < options.size(); ++i)
+        cout << i + 1 << ". " << options[i] << "\n";
+
+    int choice;
+    cout << "Please Choose type of player: ";
+    cin >> choice;
+
+    if (choice == 1) return PlayerType::HUMAN;
+    if (choice == 2) return PlayerType::COMPUTER;
+    if (choice == 3) return PlayerType::AI;
+
+    cout << "Invalid choice! Defaulting to Human.\n";
+    return PlayerType::HUMAN;
+}
+
 Player<char>** SUS_UI::setup_players() {
     Player<char>** players = new Player<char>*[2];
-    vector<string> type_options = { "Human", "Computer" };
+    vector<string> type_options = { "Human", "Computer (Greedy)", "AI (Deep Search)" };
 
     cout << "\n=== SUS Game Setup ===\n";
     cout << "Rules: Create 'S-U-S' sequences to score points!\n";
@@ -161,54 +168,36 @@ Player<char>** SUS_UI::setup_players() {
 }
 
 Player<char>* SUS_UI::create_player(string& name, char symbol, PlayerType type) {
-    // تبسيط رسالة الإنشاء
-    cout << (type == PlayerType::HUMAN ? "Human" : "Computer")
+    if (type == PlayerType::AI) {
+        cout << "Deep AI Player: " << name << " (Symbol: " << symbol << ")\n";
+        return new SUS_Deep_AI_Player(name, symbol);
+    }
+
+    cout << (type == PlayerType::HUMAN ? "Human" : "Computer (Greedy)")
          << " Player: " << name << " (Symbol: " << symbol << ")\n";
     return new Player<char>(name, symbol, type);
 }
 
-// Helper function to evaluate a potential move (used by Computer)
 int evaluate_move(SUS_Board* sus_board, int x, int y, char letter) {
-    // Create a temporary copy of the board state
     char temp_board[3][3];
     auto board_matrix = sus_board->get_board_matrix();
 
-    // Copy current board state
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             temp_board[i][j] = board_matrix[i][j];
         }
     }
 
-    // Count current SUS sequences
-    int current_sus = 0;
-
-    // Check all existing SUS sequences BEFORE the move (Rows, Cols, Diagonals)
-    for (int i = 0; i < 3; i++) {
-        if (temp_board[i][0] == 'S' && temp_board[i][1] == 'U' && temp_board[i][2] == 'S')
-            current_sus++;
-    }
-    for (int j = 0; j < 3; j++) {
-        if (temp_board[0][j] == 'S' && temp_board[1][j] == 'U' && temp_board[2][j] == 'S')
-            current_sus++;
-    }
-    if (temp_board[0][0] == 'S' && temp_board[1][1] == 'U' && temp_board[2][2] == 'S')
-        current_sus++;
-    if (temp_board[0][2] == 'S' && temp_board[1][1] == 'U' && temp_board[2][0] == 'S')
-        current_sus++;
-
-    // Now place the new piece
+    int current_sus = sus_board->count_sus_sequences();
     temp_board[x][y] = letter;
 
-    // Count NEW SUS sequences after the move
     int new_sus = 0;
 
-    // Check all new SUS sequences (Rows, Cols, Diagonals)
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; ++i) {
         if (temp_board[i][0] == 'S' && temp_board[i][1] == 'U' && temp_board[i][2] == 'S')
             new_sus++;
     }
-    for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < 3; ++j) {
         if (temp_board[0][j] == 'S' && temp_board[1][j] == 'U' && temp_board[2][j] == 'S')
             new_sus++;
     }
@@ -217,7 +206,6 @@ int evaluate_move(SUS_Board* sus_board, int x, int y, char letter) {
     if (temp_board[0][2] == 'S' && temp_board[1][1] == 'U' && temp_board[2][0] == 'S')
         new_sus++;
 
-    // Return the number of NEW sequences this move creates
     return new_sus - current_sus;
 }
 
@@ -226,13 +214,20 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
     char chosen_letter = player->get_symbol();
     Board<char>* board_ptr = player->get_board_ptr();
 
+    SUS_Deep_AI_Player* ai_player = dynamic_cast<SUS_Deep_AI_Player*>(player);
+    if (ai_player) {
+        if (ai_player->get_board_ptr() != nullptr) {
+            return ai_player->get_move();
+        } else {
+            cout << "Error: AI player board not set!\n";
+            return new Move<char>(0, 0, chosen_letter);
+        }
+    }
+
     if (player->get_type() == PlayerType::HUMAN) {
         cout << "\n" << player->get_name() << "'s turn.\n";
-
-        // رسالة الحرف الثابت
         cout << "Your letter for this turn is: '" << chosen_letter << "'.\n";
 
-        // Get coordinates
         bool valid_coords = false;
         while (!valid_coords) {
             cout << "Enter coordinates (x y) to place '" << chosen_letter << "' (0 to 2):\n";
@@ -258,14 +253,14 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
             }
         }
 
-    } else if (player->get_type() == PlayerType::COMPUTER) {
+        return new Move<char>(x, y, chosen_letter);
+
+    } else {
+        // Computer (Greedy) player
         char blank_sym = '.';
         auto board_matrix = board_ptr->get_board_matrix();
-
-        // Cast board_ptr to SUS_Board to use evaluate_move
         SUS_Board* sus_board = dynamic_cast<SUS_Board*>(board_ptr);
 
-        // Store all possible moves with their scores
         struct MoveOption {
             int x, y, score;
             char letter;
@@ -281,7 +276,6 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
             }
         }
 
-        // Find the best score
         int best_score = -1;
         for (const auto& move : all_moves) {
             if (move.score > best_score) {
@@ -289,7 +283,6 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
             }
         }
 
-        // Collect all moves with the best score
         vector<MoveOption> best_moves;
         for (const auto& move : all_moves) {
             if (move.score == best_score) {
@@ -297,9 +290,7 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
             }
         }
 
-        // Randomly choose from the best moves
         MoveOption chosen = best_moves[rand() % best_moves.size()];
-
         x = chosen.x;
         y = chosen.y;
 
@@ -307,10 +298,128 @@ Move<char>* SUS_UI::get_move(Player<char>* player) {
              << " placed '" << chosen_letter << "' at ("
              << x << ", " << y << ")";
         if (best_score > 0) {
-            cout << " [Scored " << best_score;
+            cout << " [Scored " << best_score << "]";
         }
         cout << "\n";
+
+        return new Move<char>(x, y, chosen_letter);
+    }
+}
+
+// #############################################################
+// SUS_Deep_AI_Player Implementation
+// #############################################################
+
+int SUS_Deep_AI_Player::evaluate(SUS_Board* board) {
+    if (get_symbol() == 'S') {
+        return board->get_player1_score() - board->get_player2_score();
+    } else {
+        return board->get_player2_score() - board->get_player1_score();
+    }
+}
+
+int SUS_Deep_AI_Player::minimax(SUS_Board* board, int depth, int alpha, int beta, bool is_maximizer) {
+    if (depth == 0 || board->game_is_over(this)) {
+        return evaluate(board);
     }
 
-    return new Move<char>(x, y, chosen_letter);
+    char current_player_symbol = (board->get_n_moves() % 2 == 0) ? 'S' : 'U';
+
+    if (is_maximizer) {
+        int max_eval = -100000;
+
+        for (int i = 0; i < board->get_rows(); i++) {
+            for (int j = 0; j < board->get_columns(); j++) {
+                if (board->get_cell(i, j) == '.') {
+                    SUS_Board temp_board = *board;
+                    Move<char> current_move(i, j, current_player_symbol);
+                    temp_board.update_board(&current_move);
+
+                    int eval = minimax(&temp_board, depth - 1, alpha, beta, false);
+                    max_eval = std::max(max_eval, eval);
+
+                    alpha = std::max(alpha, max_eval);
+                    if (beta <= alpha) {
+                        return max_eval;
+                    }
+                }
+            }
+        }
+        return max_eval;
+
+    } else {
+        int min_eval = 100000;
+
+        for (int i = 0; i < board->get_rows(); i++) {
+            for (int j = 0; j < board->get_columns(); j++) {
+                if (board->get_cell(i, j) == '.') {
+                    SUS_Board temp_board = *board;
+                    Move<char> current_move(i, j, current_player_symbol);
+                    temp_board.update_board(&current_move);
+
+                    int eval = minimax(&temp_board, depth - 1, alpha, beta, true);
+                    min_eval = std::min(min_eval, eval);
+
+                    beta = std::min(beta, min_eval);
+                    if (beta <= alpha) {
+                        return min_eval;
+                    }
+                }
+            }
+        }
+        return min_eval;
+    }
+}
+
+Move<char>* SUS_Deep_AI_Player::get_move() {
+    if (!boardPtr) {
+        cout << "Error: Board pointer not set for AI player!\n";
+        return new Move<char>(0, 0, symbol);
+    }
+
+    SUS_Board* sus_board = dynamic_cast<SUS_Board*>(boardPtr);
+    if (!sus_board) {
+        cout << "Error: Invalid board type for AI player!\n";
+        return new Move<char>(0, 0, symbol);
+    }
+
+    int best_val = -100000;
+    int best_x = -1, best_y = -1;
+
+    for (int i = 0; i < sus_board->get_rows(); i++) {
+        for (int j = 0; j < sus_board->get_columns(); j++) {
+            if (sus_board->get_cell(i, j) == '.') {
+                SUS_Board temp_board = *sus_board;
+                Move<char> current_move(i, j, symbol);
+                temp_board.update_board(&current_move);
+
+                int move_val = minimax(&temp_board, MAX_DEPTH - 1, -100000, 100000, false);
+
+                if (move_val > best_val) {
+                    best_val = move_val;
+                    best_x = i;
+                    best_y = j;
+                }
+            }
+        }
+    }
+
+    if (best_x == -1 || best_y == -1) {
+        for (int i = 0; i < sus_board->get_rows(); i++) {
+            for (int j = 0; j < sus_board->get_columns(); j++) {
+                if (sus_board->get_cell(i, j) == '.') {
+                    best_x = i;
+                    best_y = j;
+                    break;
+                }
+            }
+            if (best_x != -1) break;
+        }
+    }
+
+    cout << "\nDeep AI " << get_name() << " placed '" << symbol
+         << "' at (" << best_x << ", " << best_y << ")";
+    cout << " [Evaluation: " << best_val << "]\n";
+
+    return new Move<char>(best_x, best_y, symbol);
 }

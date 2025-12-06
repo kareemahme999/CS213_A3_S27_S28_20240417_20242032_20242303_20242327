@@ -80,18 +80,18 @@ void menu() {
     cout << "-------------------------------------------\n";
     cout << "\n--- 🎮 Welcome to the FCAI Game Center 🎮 ---\n";
     cout << "Individual Games:\n";
-    cout << "0: Play Classic X-O Game\n";
-    cout << "1: Play SUS\n";
-    cout << "2: Play Four-in-a-row\n";
-    cout << "3: 5 x 5 Tic Tac Toe\n";//Next update
-    cout << "4: Play Word Tic-tac-toe\n";//Next update
-    cout << "5: Play Misère Tic Tac Toe\n";
-    cout << "6: Play Diamond Tic-Tac-Toe\n";//Next update
-    cout << "7: Play 4 x 4 Tic-Tac-Toe\n";//Next update
-    cout << "8: Play Pyramid Tic-Tac-Toe\n";//Next update
+    cout << "0 : Play Classic X-O Game\n";
+    cout << "1 : Play SUS\n";
+    cout << "2 : Play Four-in-a-row\n";
+    cout << "3 : 5 x 5 Tic Tac Toe\n";//Next update
+    cout << "4 : Play Word Tic-tac-toe\n";//Next update
+    cout << "5 : Play Misère Tic Tac Toe\n";
+    cout << "6 : Play Diamond Tic-Tac-Toe\n";//Next update
+    cout << "7 : Play 4 x 4 Tic-Tac-Toe\n";//Next update
+    cout << "8 : Play Pyramid Tic-Tac-Toe\n";//Next update
     cout << "-------------------------------------------\n";
     cout << "Group Games:\n";
-    cout << "9: Play Numerical Tic-Tac-Toe\n";
+    cout << "9 : Play Numerical Tic-Tac-Toe\n";
     cout << "10: Play Obstacles Tic-Tac-Toe\n";
     cout << "11: Play Infinity Tic-Tac-Toe\n";//Next update
     cout << "12: Play Ultimate Tic Tac Toe\n";//Next update

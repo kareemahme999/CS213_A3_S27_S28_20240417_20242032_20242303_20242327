@@ -10,6 +10,7 @@
 #include "FiveXO.h"
 #include "FourXO.h"
 #include "Misere_Tic_Tac_Teo.h"
+#include "Diamond.h"
 #include "Four_in_a_row.h"
 #include "Obstacles.h"
 #include "Pyramid_Board.h"
@@ -279,6 +280,37 @@ void misere_game() {
     delete[] players;
 
     cout << "\n--- Misère Tic Tac Toe Game Over ---\n";
+}
+void Diamond_game() {
+    cout << "\n===============================\n";
+    cout << "   Starting Diamond Tic Tac Toe\n";
+    cout << "===============================\n";
+
+    // Create UI for Diamond Tic Tac Toe
+    UI<char>* game_ui = new DiamondUI();
+
+    // Create Diamond board
+    Board<char>* diamond_board = new DiamondBoard();
+
+    // Setup players
+    Player<char>** players = game_ui->setup_players();
+
+    // Create game manager
+    GameManager<char> diamond_game(diamond_board, players, game_ui);
+
+    // Run the game
+    diamond_game.run();
+
+    // --- Cleanup ---
+    delete diamond_board;
+    delete game_ui;
+
+    for (int i = 0; i < 2; ++i) {
+        delete players[i];
+    }
+    delete[] players;
+
+    cout << "\n--- Diamond Tic Tac Toe Game Over ---\n";
 }
 //fiveXO
 void run_5x5_tic_tac_toe() {

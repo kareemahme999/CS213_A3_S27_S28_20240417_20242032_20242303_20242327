@@ -83,21 +83,21 @@ void menu() {
     cout << "0 : Play Classic X-O Game\n";
     cout << "1 : Play SUS\n";
     cout << "2 : Play Four-in-a-row\n";
-    cout << "3 : 5 x 5 Tic Tac Toe\n";//Next update
-    cout << "4 : Play Word Tic-tac-toe\n";//Next update
+    cout << "3 : 5 x 5 Tic Tac Toe\n";
+    cout << "4 : Play Word Tic-tac-toe\n";
     cout << "5 : Play Misère Tic Tac Toe\n";
-    cout << "6 : Play Diamond Tic-Tac-Toe\n";//Next update
-    cout << "7 : Play 4 x 4 Tic-Tac-Toe\n";//Next update
-    cout << "8 : Play Pyramid Tic-Tac-Toe\n";//Next update
+    cout << "6 : Play Diamond Tic-Tac-Toe\n";
+    cout << "7 : Play 4 x 4 Tic-Tac-Toe\n";
+    cout << "8 : Play Pyramid Tic-Tac-Toe\n";
     cout << "-------------------------------------------\n";
     cout << "Group Games:\n";
     cout << "9 : Play Numerical Tic-Tac-Toe\n";
     cout << "10: Play Obstacles Tic-Tac-Toe\n";
-    cout << "11: Play Infinity Tic-Tac-Toe\n";//Next update
-    cout << "12: Play Ultimate Tic Tac Toe\n";//Next update
+    cout << "11: Play Infinity Tic-Tac-Toe\n";
+    cout << "12: Play Ultimate Tic Tac Toe\n";
     cout << "-------------------------------------------\n";
     cout <<"Bonus Games:\n";
-    cout <<"13: Play Memory Tic-Tac-Toe\n";//Next update
+    cout <<"13: Play Memory Tic-Tac-Toe\n";
     cout <<"14: Exit\n";
     cout << "-------------------------------------------\n";
     cout <<"please enter your choice from the menu(0>>>>14):";

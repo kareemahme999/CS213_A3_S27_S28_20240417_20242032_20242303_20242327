@@ -85,6 +85,7 @@ Move<char>* MemoryUI::get_move(Player<char>* player){
     }
 }
 
+
 Player<char>* MemoryUI::create_player(string& name,char symbol,PlayerType type){
     return new Player<char>(name,symbol,type);
 }

@@ -240,6 +240,7 @@ Player<char>* UltimateUI::create_player(string& name, char symbol, PlayerType ty
     return new Player<char>(name, symbol, type);
 }
 
+
 pair<int,int> UltimateUI::choose_bigboard_cell(Player<char>* player, Ultimate_TicTacToe* board) {
     int r, c;
     while(true) {

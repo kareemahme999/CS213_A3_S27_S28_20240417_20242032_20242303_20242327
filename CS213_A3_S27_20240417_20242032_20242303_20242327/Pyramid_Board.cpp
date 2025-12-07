@@ -147,6 +147,7 @@ Move<char>* Pyramid_UI::get_move(Player<char>* player) {
 }
 
 Player<char>* Pyramid_UI::create_player(string& name, char symbol, PlayerType type) {
+
     return new Player<char>(name, symbol, type);
 }
 

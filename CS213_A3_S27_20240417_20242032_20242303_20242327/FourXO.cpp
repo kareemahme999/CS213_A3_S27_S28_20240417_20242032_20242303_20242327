@@ -324,7 +324,6 @@ Move<char>* RandomPlayer_4x4::get_move() {
             }
         }
     }
-
     // Last resort
     return new Move<char>(0, 0, symbol);
 }

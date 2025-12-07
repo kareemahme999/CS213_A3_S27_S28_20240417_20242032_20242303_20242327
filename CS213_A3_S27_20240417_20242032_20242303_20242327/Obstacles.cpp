@@ -142,6 +142,7 @@ Move<char>* Obstacles_UI::get_move(Player<char>* p) {
 
 
 Player<char>* Obstacles_UI::create_player(string& n, char s, PlayerType t) {
+
     return new Player<char>(n, s, t);
 }
 

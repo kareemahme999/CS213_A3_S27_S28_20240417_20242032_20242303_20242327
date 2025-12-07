@@ -209,6 +209,7 @@ int evaluate_move(SUS_Board* sus_board, int x, int y, char letter) {
     return new_sus - current_sus;
 }
 
+
 Move<char>* SUS_UI::get_move(Player<char>* player) {
     int x, y;
     char chosen_letter = player->get_symbol();

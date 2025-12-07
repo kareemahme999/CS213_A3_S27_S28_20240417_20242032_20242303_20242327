@@ -79,4 +79,5 @@ public:
     Move<char>* get_move();
 };
 
+
 #endif // SUS_H

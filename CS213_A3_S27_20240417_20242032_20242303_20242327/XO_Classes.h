@@ -110,6 +110,7 @@ public:
      */
     Player<char>* create_player(string& name, char symbol, PlayerType type);
 
+
     /**
      * @brief Retrieves the next move from a player.
      * @param player Pointer to the player whose move is being requested.

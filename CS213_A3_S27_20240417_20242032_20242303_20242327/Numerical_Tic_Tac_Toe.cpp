@@ -201,6 +201,7 @@ Move<int>* Numerical_UI::get_move(Player<int>* player) {
         cout << "\nComputer player " << player->get_name()
              << " chose " << chosen_num << " and placed it at (" << x << ", " << y << ")\n";
     }
+
     return new Move<int>(x, y, chosen_num);
 }
 

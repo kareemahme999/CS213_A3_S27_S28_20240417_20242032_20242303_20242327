@@ -20,7 +20,7 @@ private:
     const int WIN_LENGTH = 3;      // for counting sequences of length 3
     const int BOARD_SIZE = 5;
 
-    // helper: count number of 3-in-a-row sequences for a given symbol
+    // helper:count number of 3-in-a-row sequences for a given symbol
     int count_three_in_a_row(char symbol) const;
 
 public:

@@ -28,6 +28,7 @@ bool WordBoard::update_board(Move<char>* move) {
     return true;
 }
 
+
 bool WordBoard::is_win(Player<char>* player) {
     // Rows
     for (int r = 0; r < 3; r++) {

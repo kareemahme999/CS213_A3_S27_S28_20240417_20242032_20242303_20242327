@@ -154,7 +154,6 @@ Player<char>** FourInARow_UI::setup_players() {
     return players;
 }
 
-
 Player<char>* FourInARow_UI::create_player(string& name, char symbol, PlayerType type) {
     //  FourInARow_Deep_AI_Playez
     if (type == PlayerType::AI) {

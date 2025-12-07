@@ -270,5 +270,6 @@ Move<char>* Misere_Deep_AI_Player::get_move() {
          << "' at (" << best_x << ", " << best_y << ")";
     cout << " [Evaluation: " << best_val << "]\n";
 
+
     return new Move<char>(best_x, best_y, symbol);
 }

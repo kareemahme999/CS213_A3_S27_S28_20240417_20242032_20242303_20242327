@@ -38,7 +38,7 @@ bool Infinity_Board::update_board(Move<char>* move) {
     moveHistory.push({x, y});
     n_moves++;
 
-    cout << "✅ Move " << n_moves << " made at (" << x << "," << y << ")\n";
+    cout << " Move " << n_moves << " made at (" << x << "," << y << ")\n";
 
     // Remove oldest move after every 3 moves
     if (n_moves % 3 == 0 && n_moves > 0) {

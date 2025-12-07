@@ -63,4 +63,6 @@ public:
     virtual Player<int>** setup_players();//set up players الى ارقام  x,o علشان اعرف اغير من
 };
 
+
+
 #endif //NUMERICAL_TIC_TAC_TOE_H

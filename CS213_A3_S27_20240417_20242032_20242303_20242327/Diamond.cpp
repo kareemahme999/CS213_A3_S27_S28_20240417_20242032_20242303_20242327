@@ -236,8 +236,7 @@ Move<char>* DiamondUI::get_move(Player<char>* player) {
 
         r = rand() % player->get_board_ptr()->get_rows();
         c = rand() % player->get_board_ptr()->get_columns();
-        
-      
+
     }
 
     return new Move<char>(r, c, player->get_symbol());

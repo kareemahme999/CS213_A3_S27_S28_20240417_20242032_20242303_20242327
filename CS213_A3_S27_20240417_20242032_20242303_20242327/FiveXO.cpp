@@ -25,7 +25,6 @@ bool FiveXOBoard::update_board(Move<char>* move) {
     ++n_moves;
     return true;
 }
-
 // count all distinct length-3 contiguous sequences for 'symbol'
 int FiveXOBoard::count_three_in_a_row(char symbol) const {
     int count = 0;

@@ -24,7 +24,6 @@ add_executable(Assignment_3
         ${SRC_DIR}/Memory_TicTacToe.cpp
         ${SRC_DIR}/Diamond.cpp
 
-
 )
 
 file(COPY dic.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

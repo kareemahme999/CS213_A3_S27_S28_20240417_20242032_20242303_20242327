@@ -1,3 +1,7 @@
+/**
+ * @file SUS.h
+ * @brief Declarations for the SUS game (S-U-S sequence scoring) and its UI/AI.
+ */
 #ifndef SUS_H
 #define SUS_H
 

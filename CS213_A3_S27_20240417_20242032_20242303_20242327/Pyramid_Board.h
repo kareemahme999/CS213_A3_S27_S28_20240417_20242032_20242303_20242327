@@ -1,3 +1,7 @@
+/**
+ * @file Pyramid_Board.h
+ * @brief Pyramid-shaped Tic-Tac-Toe board and UI declarations.
+ */
 #ifndef PYRAMID_BOARD_H
 #define PYRAMID_BOARD_H
 

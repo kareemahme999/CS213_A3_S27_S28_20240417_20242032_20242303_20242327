@@ -1,3 +1,7 @@
+/**
+ * @file FiveXO.h
+ * @brief 5x5 Tic-Tac-Toe variant declarations.
+ */
 #ifndef _FIVE_X_O_H
 #define _FIVE_X_O_H
 

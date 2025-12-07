@@ -1,5 +1,5 @@
-#ifndef _BOARDGAME_CLASSES_H
-#define _BOARDGAME_CLASSES_H
+#ifndef BOARDGAME_CLASSES_H
+#define BOARDGAME_CLASSES_H
 
 #include <string>
 #include <vector>
@@ -44,7 +44,7 @@ public:
     Board(int rows, int columns)
         : rows(rows), columns(columns), board(rows, vector<T>(columns)) {}
 
-    virtual ~Board() {}
+    virtual ~Board() = default;
 
     virtual bool update_board(Move<T>* move) = 0;
 
@@ -107,9 +107,9 @@ protected:
 
 public:
     Player(string n, T s, PlayerType t)
-        : name(n), symbol(s), type(t), boardPtr(nullptr) {}
+        : name(std::move(n)), symbol(s), type(t), boardPtr(nullptr) {}
 
-    virtual ~Player() {}
+    virtual ~Player() = default;
 
     string get_name() const { return name; }
 
@@ -134,7 +134,7 @@ protected:
     /**
      * @brief Ask the user for the player's name.
      */
-    virtual string get_player_name(string player_label) {
+    virtual string get_player_name(const string& player_label) {
         string name;
         cout << "Enter " << player_label << " name: ";
         getline(cin >> ws, name);
@@ -144,7 +144,7 @@ protected:
     /**
      * @brief Ask the user to choose the player type from a list.
      */
-    virtual PlayerType get_player_type_choice(string player_label,
+    virtual PlayerType get_player_type_choice(const string& player_label,
                                               const vector<string>& options) {
         cout << "Choose " << player_label << " type:\n";
         for (size_t i = 0; i < options.size(); ++i)
@@ -164,20 +164,20 @@ public:
     /**
      * @brief Default constructor (تعديل جديد).
      */
-    UI(int cell_display_width = 3) : cell_width(cell_display_width) {} ; // 🚀 إضافة Constructor افتراضي
+    explicit UI(int cell_display_width = 3) : cell_width(cell_display_width) {} ; // 🚀 إضافة Constructor افتراضي
 
     /**
      * @brief Construct the UI and display a welcome message.
      */
-    UI(string message, int cell_display_width)
+    UI(const string& message, int cell_display_width)
         : cell_width(cell_display_width) {
         cout << message << endl;
     }
 
-    virtual ~UI() {} // 🚀 أصبحت virtual
+    virtual ~UI() = default; // 🚀 أصبحت virtual
 
     /** @brief Display any message to the user. */
-    virtual void display_message(string message) { cout << message << "\n"; } // 🚀 أصبحت virtual
+    virtual void display_message(const string& message) { cout << message << "\n"; } // 🚀 أصبحت virtual
 
     /**
      * @brief Ask the user (or AI) to make a move.
@@ -192,7 +192,7 @@ public:
     /**
      * @brief Create a player object based on input name, symbol and type.
      */
-    virtual Player<T>* create_player(string& name, T symbol, PlayerType type) = 0;
+    virtual Player<T>* create_player(const string& name, T symbol, PlayerType type) = 0;
 
     /**
      * @brief Display the current board matrix in formatted form.
@@ -221,58 +221,8 @@ public:
 //-----------------------------------------------------
 
 template <typename T>
-class GameManager {
-    Board<T>* boardPtr;
-    Player<T>* players[2];
-    UI<T>* ui;
-
-public:
-    GameManager(Board<T>* b, Player<T>* p[2], UI<T>* u)
-        : boardPtr(b), ui(u) {
-        players[0] = p[0];
-        players[1] = p[1];
-        players[0]->set_board_ptr(b);
-        players[1]->set_board_ptr(b);
-    }
-
-    void run() {
-        ui->display_board_matrix(boardPtr->get_board_matrix());
-        Player<T>* currentPlayer = players[0];
-
-        while (true) {
-            for (int i : {0, 1}) {
-                currentPlayer = players[i];
-                Move<T>* move = ui->get_move(currentPlayer);
-
-                while (!boardPtr->update_board(move))
-                    move = ui->get_move(currentPlayer);
-
-                ui->display_board_matrix(boardPtr->get_board_matrix());
-
-                if (boardPtr->is_win(currentPlayer)) {
-                    ui->display_message(" Congratulation "+currentPlayer->get_name() + " wins!");
-                    return;
-                }
-                if (boardPtr->is_lose(currentPlayer)) {
-                    ui->display_message(" Congratulation "+players[1 - i]->get_name() + " wins!");
-                    return;
-                }
-                if (boardPtr->is_draw(currentPlayer)) {
-                    ui->display_message("Draw!");
-                    return;
-                }
-            }
-        }
-    }
-};
-
-//-----------------------------------------------------
-/**
- * @brief Default implementation of setting up two players.
- */
-template <typename T>
 Player<T>** UI<T>::setup_players() {
-    Player<T>** players = new Player<T>*[2];
+    auto players = new Player<T>*[2];
     vector<string> type_options = { "Human", "Computer" };
 
     string nameX = get_player_name("Player X");
@@ -286,4 +236,4 @@ Player<T>** UI<T>::setup_players() {
     return players;
 }
 
-#endif // _BOARDGAME_CLASSES_H
+#endif // BOARDGAME_CLASSES_H

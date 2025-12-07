@@ -1,3 +1,7 @@
+/**
+ * @file Infinity_Board.h
+ * @brief Infinite (rolling) Tic-Tac-Toe board declarations.
+ */
 #ifndef INFINITY_BOARD_H
 #define INFINITY_BOARD_H
 

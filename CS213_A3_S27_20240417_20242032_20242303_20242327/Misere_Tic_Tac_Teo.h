@@ -1,3 +1,7 @@
+/**
+ * @file Misere_Tic_Tac_Teo.h
+ * @brief Misère Tic-Tac-Toe board and UI declarations.
+ */
 #ifndef MISERE_TIC_TAC_TEO_H
 #define MISERE_TIC_TAC_TEO_H
 #include "BoardGame_Classes.h"

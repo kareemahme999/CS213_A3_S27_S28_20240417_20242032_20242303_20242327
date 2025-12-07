@@ -1,3 +1,7 @@
+/**
+ * @file FourXO.h
+ * @brief 4x4 moving Tic-Tac-Toe (pieces move) declarations.
+ */
 #ifndef FOURXO_H
 #define FOURXO_H
 

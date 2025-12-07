@@ -1,3 +1,7 @@
+/**
+ * @file Four_in_a_row.h
+ * @brief Four-in-a-row (Connect-like) board and UI declarations.
+ */
 
 #ifndef FOUR_IN_A_ROW_H
 #define FOUR_IN_A_ROW_H

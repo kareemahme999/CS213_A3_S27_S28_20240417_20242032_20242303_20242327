@@ -1,3 +1,7 @@
+/**
+ * @file Obstacles.h
+ * @brief Obstacles Tic-Tac-Toe (6x6) declarations: board and UI.
+ */
 #ifndef OBSTACLES_H
 #define OBSTACLES_H
 
@@ -32,4 +36,3 @@ public:
 void run_obstacles_game();
 
 #endif
-

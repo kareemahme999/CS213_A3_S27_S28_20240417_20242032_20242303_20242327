@@ -1,3 +1,10 @@
+/**
+ * @file word.h
+ * @brief Word Tic-Tac-Toe board and UI declarations.
+ *
+ * Implements a 3x3 board where rows, columns or diagonals forming dictionary
+ * words count as winning conditions.
+ */
 #ifndef WORD_H
 #define WORD_H
 #include "BoardGame_Classes.h"

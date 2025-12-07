@@ -1,3 +1,7 @@
+/**
+ * @file Diamond.h
+ * @brief Diamond-shaped Tic-Tac-Toe board and UI declarations.
+ */
 #ifndef DIAMOND_BOARD_H
 #define DIAMOND_BOARD_H
 

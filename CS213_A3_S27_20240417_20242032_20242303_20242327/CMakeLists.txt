@@ -30,3 +30,20 @@ add_executable(Assignment_3
 file(COPY dic.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
+# Doxygen documentation target
+# This block finds Doxygen and creates a convenient `doxygen` target that will
+# run the Doxygen executable using the Doxyfile at the project root.
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs)
+
+    add_custom_target(doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_IN}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM
+    )
+else()
+    message(STATUS "Doxygen not found - documentation target 'doxygen' will be unavailable")
+endif()

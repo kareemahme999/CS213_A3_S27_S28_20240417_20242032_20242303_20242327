@@ -1,3 +1,7 @@
+/**
+ * @file Ultimate_TicTacToe.h
+ * @brief Ultimate Tic-Tac-Toe (3x3 of 3x3 sub-boards) declarations.
+ */
 #ifndef ULTIMATE_TICTACTOE_H
 #define ULTIMATE_TICTACTOE_H
 

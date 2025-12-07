@@ -1,10 +1,6 @@
 /**
  * @file Numerical_Tic_Tac_Toe.h
- * @brief Defines the Numerical Tic-Tac-Toe specific classes.
- *
- * This file provides:
- * - `Numerical_Board`: A specialized board class for the Numerical Tic-Tac-Toe game.
- * - `Numerical_UI`: A user interface class tailored to this game's setup and player interaction.
+ * @brief Numerical Tic-Tac-Toe board and UI declarations.
  */
 
 #ifndef NUMERICAL_TIC_TAC_TOE_H

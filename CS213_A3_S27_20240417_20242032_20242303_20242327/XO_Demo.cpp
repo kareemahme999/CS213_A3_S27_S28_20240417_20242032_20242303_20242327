@@ -58,8 +58,12 @@ Name:Maryam Sayed>>>>ID:20242327:
 >>Task_13:
 */
 
-
-
+//YouTube Video Link for Demo: https://youtu.be/1K3b1bX4n0M
+//====================================================================
+//GitHub Repository Link: https://github.com/kareemahme999/CS213_A3_S27_S28_20240417_20242032_20242303_20242327
+//====================================================================
+//Canva Link for Design: https://www.canva.com/design/DAG6rIby5a0/9tcYjaWfiXImmAAdWuOQTQ/view?utm_content=DAG6rIby5a0&utm_campaign=designshare&utm_medium=link&utm_source=viewer
+//====================================================================
 
 
 

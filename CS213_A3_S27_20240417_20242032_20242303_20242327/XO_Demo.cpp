@@ -217,6 +217,7 @@ void run_sus_game() {
         cout << " DRAW! No winner declared. \n";
     }
 
+
     // 4. Cleanup
     for (int i = 0; i < 2; ++i) {
         delete players[i];

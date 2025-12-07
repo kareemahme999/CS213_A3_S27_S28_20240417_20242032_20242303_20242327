@@ -184,7 +184,6 @@ bool DiamondBoard::is_win(Player<char>* player) {
 
 
 
-
     // Check for winning combination: one line of 3 and one line of 4 in different directions
     vector<string> dirs = {"H", "V", "MD", "AD"};
 

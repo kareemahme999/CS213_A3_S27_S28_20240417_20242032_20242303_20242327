@@ -444,6 +444,11 @@ void run_word_game() {
 }
 
 void play_ultimate_tictactoe() {
+    cout << "\n=====================================\n";
+    cout << "  Starting Ultimate Tic-Tac-Toe (9x9)\n";
+    cout << "  Play anywhere on the 9x9 board!\n";
+    cout << "=====================================\n";
+
     UltimateUI* ui = new UltimateUI();
     Ultimate_TicTacToe* board = new Ultimate_TicTacToe();
 
@@ -452,85 +457,145 @@ void play_ultimate_tictactoe() {
     players[0]->set_board_ptr(board);
     players[1]->set_board_ptr(board);
 
-    int turn = 0; // Player 0 starts
+    int turn = 0;
+    int move_count = 0; // عداد الحركات
 
-    while(true){
+    // Main game loop
+    while(true) {
         Player<char>* current = players[turn];
 
-        // 0) Display Big Board first
-        cout << "\n--- Big Board ---\n";
-        board->display_big_board();
+        // Display the 9x9 board
+        board->display_board();
 
-        // 1) Choose a free cell in big_board
-        pair<int,int> big_pos = ui->choose_bigboard_cell(current, board);
-        int br = big_pos.first;
-        int bc = big_pos.second;
+        // Get move from player
+        Move<char>* move = ui->get_move(current);
 
-        cout << current->get_name() << " selected Big Board cell: (" << br << "," << bc << ")\n";
-
-        // 2) Reset and play the sub-board
-        board->reset_subboard();
-
-        // Display sub-board directly
-        board->display_subboard();
-
-        while(true){
-            // Get move
-            Move<char>* move = ui->get_move(current);
-            while(!board->update_board(move)) {
-                cout << "Invalid move, try again.\n";
-                delete move;
-                move = ui->get_move(current);
-            }
-
-            board->display_subboard();
-
-            // Check win/draw in sub-board
-            if(board->is_win(current)){
-                cout << current->get_name() << " wins this sub-board!\n";
-                board->set_bigboard_cell(br, bc, current->get_symbol());
-                break;
-            }
-            if(board->is_draw(current)){
-                cout << "Sub-board draw!\n";
-                board->set_bigboard_cell(br, bc, '-');
-                break;
-            }
-
-            // Switch player inside sub-board
-            turn = 1 - turn;
-            current = players[turn];
+        // Validate and apply move
+        while(!board->update_board(move)) {
+            cout << "Invalid move! Cell is occupied or out of bounds. Try again.\n";
+            delete move;
+            move = ui->get_move(current);
         }
 
-        // 3) Display big_board after sub-board
-        cout << "\n--- Big Board After Sub-board ---\n";
-        board->display_big_board();
+        move_count++;
 
-        // 4) Check win in big_board
-        for(int i=0;i<2;i++){
-            if(board->get_bigboard_cell(br,bc)==players[i]->get_symbol()){
-                char sym = players[i]->get_symbol();
-                bool win=false;
-                // Horizontal
-                for(int r=0;r<3;r++)
-                    if(board->get_bigboard_cell(r,0)==sym && board->get_bigboard_cell(r,1)==sym && board->get_bigboard_cell(r,2)==sym) win=true;
-                // Vertical
-                for(int c=0;c<3;c++)
-                    if(board->get_bigboard_cell(0,c)==sym && board->get_bigboard_cell(1,c)==sym && board->get_bigboard_cell(2,c)==sym) win=true;
-                // Diagonals
-                if(board->get_bigboard_cell(0,0)==sym && board->get_bigboard_cell(1,1)==sym && board->get_bigboard_cell(2,2)==sym) win=true;
-                if(board->get_bigboard_cell(0,2)==sym && board->get_bigboard_cell(1,1)==sym && board->get_bigboard_cell(2,0)==sym) win=true;
+        // فحص المربعات الصغيرة بس كل 3 حركات (عشان ميهنجش)
+        // أو لما الحركات تبقى أكتر من 15 (يعني ممكن حد يكسب)
+        if(move_count % 3 == 0 || move_count >= 15) {
+            for(int big_row = 0; big_row < 3; big_row++) {
+                for(int big_col = 0; big_col < 3; big_col++) {
 
-                if(win){
-                    cout << "\nCongratulations! " << players[i]->get_name() << " wins the Ultimate Tic Tac Toe!\n";
-                    // Cleanup
-                    delete players[0]; delete players[1]; delete[] players; delete ui; delete board;
-                    return;
+                    if(board->get_bigboard_cell(big_row, big_col) != '-') continue;
+
+                    int start_r = big_row * 3;
+                    int start_c = big_col * 3;
+
+                    if(board->check_small_grid_win(start_r, start_c, 'X')) {
+                        board->set_bigboard_cell(big_row, big_col, 'X');
+                        cout << " X won sub-grid [" << big_row << "," << big_col << "]!\n";
+                    }
+                    else if(board->check_small_grid_win(start_r, start_c, 'O')) {
+                        board->set_bigboard_cell(big_row, big_col, 'O');
+                        cout << " O won sub-grid [" << big_row << "," << big_col << "]!\n";
+                    }
                 }
             }
+
+            // فحص الفوز بس بعد ما نفحص المربعات
+            if(board->is_win(current)) {
+                board->display_board();
+
+                // عرض النتيجة النهائية
+                cout << "\n========================================\n";
+                cout << "          FINAL RESULT (3x3)            \n";
+                cout << "========================================\n";
+                cout << "     0     1     2\n";
+                cout << "   -----------------\n";
+                for(int i = 0; i < 3; i++) {
+                    cout << " " << i << " |";
+                    for(int j = 0; j < 3; j++) {
+                        cout << "  " << board->get_bigboard_cell(i, j) << "  |";
+                    }
+                    cout << "\n   -----------------\n";
+                }
+
+                // حساب النتيجة
+                int x_count = 0, o_count = 0;
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        if(board->get_bigboard_cell(i, j) == 'X') x_count++;
+                        else if(board->get_bigboard_cell(i, j) == 'O') o_count++;
+                    }
+                }
+
+                cout << "\n--- Sub-Grids Won ---\n";
+                cout << players[0]->get_name() << " (X): " << x_count << " sub-grids\n";
+                cout << players[1]->get_name() << " (O): " << o_count << " sub-grids\n";
+
+                cout << "\n**-- CONGRATULATIONS! **--\n";
+                cout << current->get_name() << " (" << current->get_symbol()
+                     << ") wins!\n";
+
+                delete players[0];
+                delete players[1];
+                delete[] players;
+                delete ui;
+                delete board;
+                return;
+            }
+
+            if(board->is_draw(current)) {
+                board->display_board();
+
+                // عرض النتيجة النهائية
+                cout << "\n========================================\n";
+                cout << "          FINAL RESULT (3x3)            \n";
+                cout << "========================================\n";
+                cout << "     0     1     2\n";
+                cout << "   -----------------\n";
+                for(int i = 0; i < 3; i++) {
+                    cout << " " << i << " |";
+                    for(int j = 0; j < 3; j++) {
+                        cout << "  " << board->get_bigboard_cell(i, j) << "  |";
+                    }
+                    cout << "\n   -----------------\n";
+                }
+
+                // حساب النتيجة
+                int x_count = 0, o_count = 0;
+                for(int i = 0; i < 3; i++) {
+                    for(int j = 0; j < 3; j++) {
+                        if(board->get_bigboard_cell(i, j) == 'X') x_count++;
+                        else if(board->get_bigboard_cell(i, j) == 'O') o_count++;
+                    }
+                }
+
+                cout << "\n--- Sub-Grids Won ---\n";
+                cout << players[0]->get_name() << " (X): " << x_count << " sub-grids\n";
+                cout << players[1]->get_name() << " (O): " << o_count << " sub-grids\n";
+
+                cout << "\n DRAW! \n";
+
+                delete players[0];
+                delete players[1];
+                delete[] players;
+                delete ui;
+                delete board;
+                return;
+            }
         }
 
-        // 5) Switch player for next sub-board
+        // تأخير بسيط لو كمبيوتر vs كمبيوتر
+        if(players[0]->get_type() == PlayerType::COMPUTER &&
+           players[1]->get_type() == PlayerType::COMPUTER) {
+            #ifdef _WIN32
+                system("timeout /t 1 >nul");
+            #else
+                system("sleep 1");
+            #endif
+        }
+
+        // Switch player
         turn = 1 - turn;
     }
 }

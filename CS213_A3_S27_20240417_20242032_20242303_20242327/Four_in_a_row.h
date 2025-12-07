@@ -15,25 +15,26 @@ using namespace std;
  *
 */
 
+class FourInARow_Deep_AI_Player;
+
 class FourInARow_Board : public Board<char> {
 private:
     const char blank_symbol = ' ';
 
 public:
-    // الحجم 6 صفوف و 7 أعمدة
     FourInARow_Board();
+    
+    FourInARow_Board(const FourInARow_Board& other);
 
     bool update_board(Move<char>* move);
-
     bool is_win(Player<char>* player);
-
     bool is_lose(Player<char>*) { return false; }
-
     bool is_draw(Player<char>* player);
-
     bool game_is_over(Player<char>* player);
-    // بيساعد انى الصف فاضى
+    
     int get_available_row(int y) const;
+    
+    char get_blank_symbol() const { return blank_symbol; }
 };
 
 // #############################################################
@@ -42,24 +43,44 @@ public:
 
 class FourInARow_UI : public UI<char> {
 private:
-// بيساعد انى العمود فاضى
- int get_valid_column(Player<char>* player);
+    int get_valid_column(Player<char>* player);
 
 public:
-    // Constructor: حجم اللوحة 7*6
     FourInARow_UI();
-
     ~FourInARow_UI() {}
 
-    // إنشاء لاعب جديد (X أو O)
-    Player<char>* create_player(string& name, char symbol, PlayerType type);
+    PlayerType get_player_type_choice(string player_label,
+                                      const vector<string>& options) override;
 
-    //  حركة اللاعب (أخذ رقم العمود)
-    virtual Move<char>* get_move(Player<char>* player);
-    // إعداد اللاعبين وتعيين الرموز (X و O)
-    virtual Player<char>** setup_players();
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    Player<char>** setup_players() override;
 };
 
+// #############################################################
+// 3. FourInARow_Deep_AI_Player Class - جديدة بالكامل
+// #############################################################
 
+class FourInARow_Deep_AI_Player : public Player<char> {
+private:
+    const int MAX_DEPTH = 6; // عمق البحث (يمكن تقليله لـ 4-5 للسرعة)
 
-#endif //FOUR_IN_A_ROW_H
+    int evaluate(FourInARow_Board* board);
+    
+    int count_sequences(FourInARow_Board* board, char symbol, int length);
+    
+    int minimax(FourInARow_Board* board, int depth, int alpha, int beta,
+                bool is_maximizer, char current_symbol);
+    
+    char get_opponent_symbol() const {
+        return (symbol == 'X') ? 'O' : 'X';
+    }
+
+public:
+    FourInARow_Deep_AI_Player(string name, char symbol)
+        : Player(name, symbol, PlayerType::AI) {}
+
+    Move<char>* get_move();
+};
+
+#endif // FOUR_IN_A_ROW_H

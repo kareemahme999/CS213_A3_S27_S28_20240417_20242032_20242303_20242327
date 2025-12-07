@@ -13,6 +13,7 @@ public:
     DiamondBoard();
 
 
+
     bool update_board(Move<char>* move) override;
     bool is_win(Player<char>* player) override;
     bool is_lose(Player<char>* player) override;

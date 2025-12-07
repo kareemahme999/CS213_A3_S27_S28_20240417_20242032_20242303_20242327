@@ -181,6 +181,7 @@ void run_numerical_game() {
 
     cout << "\n--- Numerical Game Over ---\n";
 
+
 }
 void run_sus_game() {
     cout << "\n=====================================\n";

@@ -35,4 +35,5 @@ public:
     Player<char>* create_player(std::string& name, char symbol, PlayerType t) override;
 };
 
+
 #endif

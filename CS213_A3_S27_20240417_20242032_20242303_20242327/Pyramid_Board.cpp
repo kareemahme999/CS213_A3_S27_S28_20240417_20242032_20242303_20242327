@@ -8,8 +8,8 @@ using namespace std;
 
 Pyramid_Board::Pyramid_Board() : Board(3, 5) {
     pyramid = {
-        {' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' '},
+        {'#', '#', ' ', '#', '#'},
+        {'#', ' ', ' ', ' ', '#'},
         {' ', ' ', ' ', ' ', ' '}
     };
     board = pyramid;

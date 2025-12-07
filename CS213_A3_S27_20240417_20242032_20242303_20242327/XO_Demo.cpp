@@ -73,7 +73,6 @@ Name:Maryam Sayed>>>>ID:20242327:
 
 
 
-
 void clear_cin() {
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -82,8 +81,9 @@ void clear_cin() {
 
 
 void menu() {
-    cout << "-------------------------------------------\n";
-    cout << "\n--- 🎮 Welcome to the FCAI Game Center 🎮 ---\n";
+    cout << "===========================================";
+    cout << "\n    ** Welcome to FCAI Game Center **    \n";
+    cout << "===========================================\n";
     cout << "Individual Games:\n";
     cout << "0 : Play Classic X-O Game\n";
     cout << "1 : Play SUS\n";
@@ -94,17 +94,17 @@ void menu() {
     cout << "6 : Play Diamond Tic-Tac-Toe\n";
     cout << "7 : Play 4 x 4 Tic-Tac-Toe\n";
     cout << "8 : Play Pyramid Tic-Tac-Toe\n";
-    cout << "-------------------------------------------\n";
+    cout << "===========================================\n";
     cout << "Group Games:\n";
     cout << "9 : Play Numerical Tic-Tac-Toe\n";
     cout << "10: Play Obstacles Tic-Tac-Toe\n";
     cout << "11: Play Infinity Tic-Tac-Toe\n";
     cout << "12: Play Ultimate Tic Tac Toe\n";
-    cout << "-------------------------------------------\n";
+    cout << "===========================================\n";
     cout <<"Bonus Games:\n";
     cout <<"13: Play Memory Tic-Tac-Toe\n";
     cout <<"14: Exit\n";
-    cout << "-------------------------------------------\n";
+    cout << "===========================================\n";
     cout <<"please enter your choice from the menu(0>>>>14):";
 }
 

@@ -86,7 +86,7 @@ void menu() {
     cout << "2 : Play Four-in-a-row\n";
     cout << "3 : 5 x 5 Tic Tac Toe\n";
     cout << "4 : Play Word Tic-tac-toe\n";
-    cout << "5 : Play Misère Tic Tac Toe\n";
+    cout << "5 : Play Misere Tic Tac Toe\n";
     cout << "6 : Play Diamond Tic-Tac-Toe\n";
     cout << "7 : Play 4 x 4 Tic-Tac-Toe\n";
     cout << "8 : Play Pyramid Tic-Tac-Toe\n";

@@ -13,6 +13,8 @@
 #include "BoardGame_Classes.h"
 using namespace std;
 
+class XO_Deep_AI_Player;
+
 /**
  * @class X_O_Board
  * @brief Represents the Tic-Tac-Toe game board.
@@ -32,6 +34,8 @@ public:
      * @brief Default constructor that initializes a 3x3 X-O board.
      */
     X_O_Board();
+
+    X_O_Board(const X_O_Board& other);
 
     /**
      * @brief Updates the board with a player's move.
@@ -67,6 +71,8 @@ public:
      * @return true if the game has ended, false otherwise.
      */
     bool game_is_over(Player<char>* player);
+
+    char get_blank_symbol() const { return blank_symbol; }
 };
 
 
@@ -93,6 +99,8 @@ public:
      */
     ~XO_UI() {};
 
+    PlayerType get_player_type_choice(string player_label, const vector<string>& options) override;
+
     /**
      * @brief Creates a player of the specified type.
      * @param name Name of the player.
@@ -108,6 +116,25 @@ public:
      * @return A pointer to a new `Move<char>` object representing the player's action.
      */
     virtual Move<char>* get_move(Player<char>* player);
+
+    Player<char>** setup_players() override;
+};
+
+class XO_Deep_AI_Player : public Player<char> {
+private:
+    const int MAX_DEPTH = 9;
+
+    int evaluate(X_O_Board* board);
+    int minimax(X_O_Board* board, int depth, int alpha, int beta, bool is_maximizer, char current_symbol);
+
+    char get_opponent_symbol() const {
+        return (symbol == 'X') ? 'O' : 'X';
+    }
+
+public:
+    XO_Deep_AI_Player(string name, char symbol) : Player(name, symbol, PlayerType::AI) {}
+
+    Move<char>* get_move();
 };
 
 #endif // XO_CLASSES_H

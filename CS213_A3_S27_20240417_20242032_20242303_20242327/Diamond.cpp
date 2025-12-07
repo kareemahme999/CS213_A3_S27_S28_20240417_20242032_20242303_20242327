@@ -182,6 +182,7 @@ bool DiamondBoard::is_win(Player<char>* player) {
         if (line.size() >= 3) add_line(lines["AD"], line);
     }
 
+
     // Check for winning combination: one line of 3 and one line of 4 in different directions
     vector<string> dirs = {"H", "V", "MD", "AD"};
 
